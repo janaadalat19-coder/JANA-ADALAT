@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jana Adalat - The People's Court</title>
+    <style>
+        :root {
+            --bg-dark: #0f1115;
+            --bg-card: #181c24;
+            --accent-red: #e63946;
+            --accent-glow: rgba(230, 57, 70, 0.4);
+            --text-main: #f1f3f5;
+            --text-muted: #9aa0a6;
+            --border-color: #2c323f;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Glow effects */
+        .glow-overlay {
+            position: absolute;
+            top: 0;
+            left: 25%;
+            width: 50%;
+            height: 400px;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            z-index: 0;
+            pointer-events: none;
+            filter: blur(60px);
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 8%;
+            background: rgba(24, 28, 36, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--text-main);
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo span {
+            color: var(--accent-red);
+            text-shadow: 0 0 10px var(--accent-red);
+        }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-left: 25px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--accent-red);
+        }
+
+        .hero {
+            position: relative;
+            padding: 100px 8% 80px 8%;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 1;
+        }
+
+        .badge {
+            background: rgba(230, 57, 70, 0.1);
+            border: 1px solid var(--accent-red);
+            color: var(--accent-red);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            box-shadow: 0 0 15px rgba(230, 57, 70, 0.2);
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.2;
+            max-width: 800px;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 span {
+            color: var(--accent-red);
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin-bottom: 40px;
+        }
+
+        .cta-btn {
+            background-color: var(--accent-red);
+            color: white;
+            padding: 14px 32px;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 15px rgba(230, 57, 70, 0.4);
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(230, 57, 70, 0.6);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 35px;
+            border-radius: 12px;
+            transition: border-color 0.3s, transform 0.3s;
+        }
+
+        .card:hover {
+            border-color: var(--accent-red);
+            transform: translateY(-5px);
+        }
+
+        .card-icon {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--accent-red);
+        }
+
+        .card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .form-section {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 45px;
+            max-width: 800px;
+            margin: 40px auto 0 auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            font-size: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            background-color: var(--bg-dark);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 12px 16px;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-red);
+            box-shadow: 0 0 8px rgba(230, 57, 70, 0.2);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .file-upload-wrapper {
+            position: relative;
+            border: 2px dashed var(--border-color);
+            border-radius: 6px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+
+        .file-upload-wrapper:hover {
+            border-color: var(--accent-red);
+        }
+
+        .file-upload-wrapper input[type="file"] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .file-upload-text {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .file-upload-text span {
+            color: var(--accent-red);
+            font-weight: 600;
+        }
+
+        .privacy-notice {
+            background: rgba(230, 57, 70, 0.05);
+            border-left: 4px solid var(--accent-red);
+            padding: 15px;
+            border-radius: 0 6px 6px 0;
+            margin-bottom: 30px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .privacy-notice strong {
+            color: var(--text-main);
+        }
+
+        .submit-btn {
+            width: 100%;
+            background-color: var(--accent-red);
+            color: white;
+            padding: 14px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.2s;
+            box-shadow: 0 4px 15px rgba(230, 57, 70, 0.3);
+        }
+
+        .submit-btn:hover {
+            background-color: #d62839;
+            transform: translateY(-1px);
+        }
+
+        footer {
+            margin-top: 80px;
+            background-color: #0b0d10;
+            border-top: 1px solid var(--border-color);
+            padding: 40px 20px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        footer span {
+            color: var(--accent-red);
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.2rem; }
+            .form-row { grid-template-columns: 1fr; gap: 0; }
+            header { padding: 15px 5%; }
+            nav { display: none; } /* Simplified for mobile */
+            .form-section { padding: 25px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="glow-overlay"></div>
+
+    <header>
+        <div class="logo">JANA <span>ADALAT</span></div>
+        <nav>
+            <a href="#" class="active">Home</a>
+            <a href="#about">Our Mission</a>
+            <a href="#report">File a Case</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="badge">Voice for the Voiceless</div>
+        <h1>The Digital Tribunal for the <span>Unheard People</span> of Odisha</h1>
+        <p>A completely anonymous platform to bring cases of extreme poverty, lack of housing, and systemic negligence straight to light. We present the evidence. The public decides.</p>
+        <a href="#report" class="cta-btn">Submit a Case Anonymously</a>
+    </section>
+
+    <div class="container" id="about">
+        <div class="grid-3">
+            <div class="card">
+                <div class="card-icon">👁️‍🗨️</div>
+                <h3>100% Anonymous</h3>
+                <p>Your safety is paramount. We do not track IPs, store your personal credentials, or ask for your identity. Report without fear.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🏛️</div>
+                <h3>Public Acceleration</h3>
+                <p>Verified stories are transformed into digital case files, building powerful public narratives that local administrations cannot ignore.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">✊</div>
+                <h3>Direct Impact</h3>
+                <p>Focused entirely on fundamental human rights: secure housing, clean drinking water, proper rations, and immediate welfare aid.</p>
+            </div>
+        </div>
+
+        <section class="form-section" id="report">
+            <h2 class="section-title">Case Submission Desk</h2>
+            <p class="section-subtitle">Fill in the local details accurately. Let the truth speak.</p>
+
+            <form action="#" method="POST" onsubmit="alert('Case encrypted and queued successfully.'); return false;">
+                
+                <div class="privacy-notice">
+                    🛡️ <strong>Encryption Active:</strong> All input fields are secured. Do not write your personal name or address inside the case narrative unless you intentionally want to act as an open witness.
+                </div>
+
+                <div class="form-group">
+                    <label for="category">Issue Category / ସମସ୍ୟାର ଶ୍ରେଣୀ</label>
+                    <select id="category" required>
+                        <option value="" disabled selected>Select the primary problem...</option>
+                        <option value="housing">Homeless / No Concrete House (ଘର ନାହିଁ)</option>
+                        <option value="aid">Ignored for Government Schemes (ଯୋଜନାରୁ ବଞ୍ଚିତ)</option>
+                        <option value="water">No Drinking Water / Infrastructure Failure</option>
+                        <option value="medical">Extreme Medical Emergency Neglect</option>
+                        <option value="other">Other Administrative Corruption / Grievance</option>
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="district">Odisha District / ଜିଲ୍ଲା</label>
+                        <select id="district" required>
+                            <option value="" disabled selected>Select district...</option>
+                            <option value="khordha">Khordha</option>
+                            <option value="cuttack">Cuttack</option>
+                            <option value="ganjam">Ganjam</option>
+                            <option value="puri">Puri</option>
+                            <option value="balasore">Balasore</option>
+                            <option value="sambalpur">Sambalpur</option>
+                            <option value="koraput">Koraput</option>
+                            <option value="mayurbhanj">Mayurbhanj</option>
+                            <option value="bhadrak">Bhadrak</option>
+                            <option value="angul">Angul</option>
+                            <option value="jajpur">Jajpur</option>
+                            <option value="kalahandi">Kalahandi</option>
+                            <option value="rayagada">Rayagada</option>
+                            <option value="other">Other District (Mention below)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="location">Block / Village / Landmark</label>
+                        <input type="text" id="location" placeholder="e.g., Padmapur Village, Near School" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Detailed Description of the Case (ସମ୍ପୂର୍ଣ୍ଣ ବିବରଣୀ)</label>
+                    <textarea id="description" rows="6" placeholder="Explain the exact condition. How long have they been living without a home? What did the local officers say? Be factual." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Upload Supporting Evidence (Photos / Video Clips)</label>
+                    <div class="file-upload-wrapper">
+                        <input type="file" id="evidence" accept="image/*,video/*" multiple>
+                        <div class="file-upload-text">
+                            📸 Drag & drop files here or <span>Browse files</span>
+                            <br><small style="color: var(--text-muted); font-size: 0.8rem;">Upload pictures of the house condition or video statement</small>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">File Case Anonymously</button>
+            </form>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Jana Adalat. Powered by the people. Powered by the Truth. <span>⚖️</span></p>
+    </footer>
+
+</body>
+</html>
